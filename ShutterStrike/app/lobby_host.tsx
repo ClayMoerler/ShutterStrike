@@ -14,14 +14,14 @@ export default function LobbyScreen() {
    
       <View style={styles.buttonContainer}>
           <StyledButton 
-            title="Go" 
+            title="Game Options" 
             onPress={() => router.push('/lobby_player')}  
-            style={{ width: '47%' }}
+            style={{ width: '65%' }}
           />
           <StyledButton 
             title="Go" 
             onPress={() => router.push('/lobby_player')}  
-            style={{ width: '47%' }}
+            style={{ width: '30%' }}
           />
         </View>
 

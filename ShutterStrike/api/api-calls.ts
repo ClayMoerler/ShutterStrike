@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { DEV_URI } from "@/constants/path-vars";
+import { DEV_URI } from "@/constants/uri";
 
 export const initLobby = async () : Promise<void> => {
     try {
