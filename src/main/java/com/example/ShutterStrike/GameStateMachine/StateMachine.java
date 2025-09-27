@@ -27,27 +27,22 @@ public class StateMachine {
         switch (gameState) {
             case IDLE:
                 printGameState();            
-
                 break;
 
             case AWAITING_PLAYERS:
                 printGameState();            
-
                 break;
 
             case GAME_INIT:
                 printGameState();            
-
                 break;
 
             case GAME_ONGOING:
                 printGameState();            
-
                 break;
 
             case GAME_RESULTS:
                 printGameState();            
-
                 break;
         }
     }
