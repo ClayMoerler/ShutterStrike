@@ -3,18 +3,16 @@ import lombok.Data;
 
 @Data
 public class User {
-    String UUID;
     String faceMap; //Placeholder
-    Player player;
+    String UUID;
 
-    public User(Player player, String UUID, String faceMap){
-        this.player = player;
+    public User(String UUID, String faceMap){
         this.UUID = UUID;
         this.faceMap = faceMap;
     }
 
     public User(){
-        this(null,null,null);
+        this(null,null);
     }
 
 
