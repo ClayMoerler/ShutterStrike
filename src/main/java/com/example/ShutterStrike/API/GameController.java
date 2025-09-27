@@ -1,8 +1,6 @@
 package com.example.ShutterStrike.API;
 
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.example.ShutterStrike.GameStateMachine.StateMachine;
@@ -17,7 +15,7 @@ public class GameController {
     }
 
     @PostMapping("api/game/start")
-    public ResponseEntity<String> processInitLobbyRequest(@RequestBody String singal) {
+    public ResponseEntity<String> processInitLobbyRequest() {
         stateMachine.initLobby();
         return ResponseEntity.ok("Event received");
     }
