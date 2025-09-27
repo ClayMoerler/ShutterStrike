@@ -1,44 +1,43 @@
 import React from 'react';
-import { Text, View, StyleSheet, StatusBar } from 'react-native';
+import { View, StyleSheet, StatusBar } from 'react-native';
 import HorizontalScroller from '../components/HorizontalScroller';
-import MapComponent from '../components/MapComponent';
 import StyledButton from '../components/StyledButton';
 import { useRouter } from 'expo-router'; 
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView } from 'react-native-safe-area-context';
+import ZonedMapComponent from '../components/ZonedMapComponent'; // Import the new component
 
+// Define the center and radius for your game zone
+const GAME_ZONE = {
+  center: {
+    latitude: 37.78825,
+    longitude: -122.4324,
+  },
+  radius: 500, // in meters
+};
 
-
-export default function LobbyScreen() {
+export default function LobbyPlayerScreen() {
     const router = useRouter();
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" />
       <HorizontalScroller />
    
-      <View style={styles.centeredButtonContainer}>
-          <StyledButton 
-            title="Game Options" 
-            onPress={() => router.push('/lobby_player')}  
-            style={{ width: '60%' }}
-          />
-        </View>
-
       <View style={styles.mapContainer}>
-        <MapComponent />
-        
-        <View style={styles.invertedCircleOverlay} pointerEvents="none" />
-
-        <View style={styles.circleBorder} pointerEvents="none" />
+        <ZonedMapComponent 
+          zoneCenter={GAME_ZONE.center}
+          zoneRadius={GAME_ZONE.radius}
+        />
       </View>
 
       <View style={styles.buttonContainer}>
           <StyledButton 
             title="Class" 
-            onPress={() => router.push('/lobby_player')}  
+            onPress={() => alert('Class selected!')}  
             style={{ width: '47%' }}
           />
           <StyledButton 
             title="Ready" 
-            onPress={() => router.push('/lobby_player')}  
+            onPress={() => alert('Ready!')}  
             style={{ width: '47%' }}
           />
         </View>
@@ -50,55 +49,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#25292e',
+    gap: 15,
+    paddingBottom: 15,
   },
   mapContainer: {
     flex: 1,
     width: '90%',
     alignSelf: 'center',
     borderRadius: 12,
-    overflow: 'hidden', 
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  invertedCircleOverlay: {
-    position: 'absolute',
-    width: 2000,  // A very large width
-    height: 2000, // A very large height
-    borderRadius: 1000, // Makes it a circle (half of width/height)
-    // This creates the transparent "hole" in the middle
-    borderWidth: 900, // (width / 2) - (hole_radius) = 1000 - 100 = 900
-    borderColor: 'rgba(255, 0, 0, 0.4)', // The semi-transparent red for shading
-  },
-  circleBorder: {
-    position: 'absolute',
-    width: 200,      // Same size as the transparent hole
-    height: 200,
-    borderRadius: 100,
-    borderWidth: 3,
-    borderColor: 'red', // The solid red border
-  },
-  mainContent: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    color: '#fff',
-    fontSize: 24,
+    overflow: 'hidden', // Ensures the map stays within the rounded corners
   },
   buttonContainer: {
     flexDirection: 'row', 
     width: '90%',
     alignSelf: 'center',
-    alignItems: 'center', 
     justifyContent: 'space-between',
-    marginVertical: 10,
-  },
-  centeredButtonContainer: {
-    justifyContent: 'center', 
-    alignItems: 'center',
-    width: '90%',
-    alignSelf: 'center',
   },
 });
-
