@@ -2,14 +2,14 @@ package com.example.ShutterStrike.Models;
 
 import java.util.Random;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.example.ShutterStrike.Utilities.stormutil;
 
 import lombok.Getter;
 import lombok.Setter;
 
-@Service
+@Component
 public class Storm {
 
     // Constants - Adjustable during trials

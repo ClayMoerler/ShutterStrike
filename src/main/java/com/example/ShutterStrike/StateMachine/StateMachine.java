@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class StateMachine {
 
+    public static final StateMachine AWAITING_PLAYERS = null;
+
     public enum States {
         IDLE,
         AWAITING_PLAYERS,

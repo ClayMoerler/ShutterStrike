@@ -17,6 +17,8 @@ public class Player{
     private int playerHealth;
     private boolean isHost;
 
+    // Nest player into User, because a lot of user data.
+
     //Player Constructor
     public Player(String playerName, String playerClass, int playerUUID, int playerHealth, boolean isHost){
         this.playerName = playerName;
@@ -30,6 +32,8 @@ public class Player{
     public Player(){
         this(null,null,0,0,false);
     }
+
+    
 
     /*public void takeDamage(){
         if(this.playerHealth > 0){
