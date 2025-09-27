@@ -27,8 +27,8 @@ export default function Index() {
         <StyledButton 
           title="Start Lobby" 
           onPress={() => {
-            router.push('/lobby_host')
             initLobby();
+            router.push('/lobby_host')
             sendUserData();
           }}
         />
@@ -44,9 +44,10 @@ export default function Index() {
 
           <StyledButton 
             title="Go" 
-            onPress={() =>{ 
-              router.push('/lobby_player')
-              sendUserData(); 
+            onPress = { async () =>{ 
+              const accepted = await sendUserData()
+              if(accepted) 
+                router.push('/lobby_player')
             }}
             style={{ width: '30%' }}
           />
