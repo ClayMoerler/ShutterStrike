@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 @Slf4j
 public class StateMachine {
 
-    private enum States {
+    public enum States {
         IDLE,
         AWAITING_PLAYERS,
         GAME_INIT,

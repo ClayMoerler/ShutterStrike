@@ -19,5 +19,4 @@ public class GameController {
         stateMachine.initLobby();
         return ResponseEntity.ok("Event received");
     }
-
 }
