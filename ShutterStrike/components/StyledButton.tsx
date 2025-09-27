@@ -1,34 +1,37 @@
-import { Text, StyleSheet, Pressable } from 'react-native';
+// In your components/StyledButton.js file
 
-// 1. Define the types for the component's props
+import React from 'react';
+import { Pressable, Text, StyleSheet, ViewStyle } from 'react-native';
+
+// Define the component's props
 type StyledButtonProps = {
   title: string;
-  onPress: () => void; // A function that takes no arguments and returns nothing
+  onPress: () => void;
+  style?: ViewStyle; // <-- 1. Add an optional style prop
 };
 
-// 2. Apply the types to the props object
-export default function StyledButton({ title, onPress }: StyledButtonProps) {
+export default function StyledButton({ title, onPress, style }: StyledButtonProps) {
   return (
-    <Pressable style={styles.button} onPress={onPress}>
-      <Text style={styles.buttonLabel}>{title}</Text>
+    // 2. Merge the default styles with the passed-in style
+    <Pressable style={[styles.button, style]} onPress={onPress}>
+      <Text style={styles.text}>{title}</Text>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#4D4D4D',
+    backgroundColor: '#ffd33d',
+    padding: 16,
     borderRadius: 8,
-    paddingVertical: 12,
-    paddingHorizontal: 24,
     alignItems: 'center',
     justifyContent: 'center',
-    elevation: 3,
-    marginBottom: 16,
-    minWidth: 200,
+    marginVertical: 10,
+    width: '100%', // This is the default width
   },
-  buttonLabel: {
-    color: '#fff',
+  text: {
+    color: '#25292e',
     fontSize: 16,
+    fontWeight: 'bold',
   },
 });
