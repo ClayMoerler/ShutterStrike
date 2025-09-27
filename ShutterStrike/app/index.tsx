@@ -6,12 +6,13 @@ import StyledTextInput from '@/components/StyledTextInput';
 import { initLobby, sendUserData } from '@/api/api-calls';
 import { generateUUID } from '@/util/utilities';
 import { useRouter } from 'expo-router'; 
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 
 export default function Index() {
   const router = useRouter();
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
 
       <View style={styles.headerContainer}>
         <IconButton 
@@ -53,7 +54,7 @@ export default function Index() {
 
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

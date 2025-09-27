@@ -4,11 +4,14 @@ import HorizontalScroller from '../components/HorizontalScroller';
 import MapComponent from '../components/MapComponent';
 import StyledButton from '../components/StyledButton';
 import { useRouter } from 'expo-router'; 
+import { SafeAreaView } from 'react-native-safe-area-context'
+
+
 
 export default function LobbyScreen() {
     const router = useRouter();
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
       <HorizontalScroller />
    
@@ -28,10 +31,8 @@ export default function LobbyScreen() {
       <View style={styles.mapContainer}>
         <MapComponent />
         
-        {/* This View creates the shading OUTSIDE the circle */}
         <View style={styles.invertedCircleOverlay} pointerEvents="none" />
 
-        {/* This View adds the solid red border back */}
         <View style={styles.circleBorder} pointerEvents="none" />
       </View>
 
@@ -47,7 +48,7 @@ export default function LobbyScreen() {
             style={{ width: '47%' }}
           />
         </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -57,17 +58,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#25292e',
   },
   mapContainer: {
-    height: 250,
+    flex: 1,
     width: '90%',
     alignSelf: 'center',
-    marginVertical: 20,
     borderRadius: 12,
-    // overflow: 'hidden' is crucial for this technique to work
     overflow: 'hidden', 
     justifyContent: 'center',
     alignItems: 'center',
   },
-  // --- NEW STYLES ---
   invertedCircleOverlay: {
     position: 'absolute',
     width: 2000,  // A very large width
@@ -85,7 +83,6 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: 'red', // The solid red border
   },
-  // --- END NEW STYLES ---
   mainContent: {
     flex: 1,
     justifyContent: 'center',
@@ -104,3 +101,4 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
 });
+
