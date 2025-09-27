@@ -18,6 +18,5 @@ export default function IconButton({ IconComponent, size, onPress }: IconButtonP
 
 const styles = StyleSheet.create({
   button: {
-    padding: 8,
   },
 });

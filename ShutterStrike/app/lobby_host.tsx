@@ -12,7 +12,6 @@ export default function LobbyScreen() {
     const router = useRouter();
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" />
       <HorizontalScroller />
    
       <View style={styles.buttonContainer}>
