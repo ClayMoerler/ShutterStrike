@@ -4,11 +4,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Lobby {
-    // Unique lobby identifier  
+    
+    // Lobby Constants
     private static final int MIN_PLAYERS_TO_START = 2;
     private static final int MAX_PLAYERS = 14;
 
-    User player = new User();
+    Player player = new Player();
 
     // Storing players. Key: PlayerId, Value: Player Obj
     private final Map<Long, Player> activePlayers = new ConcurrentHashMap<>();
@@ -17,11 +18,11 @@ public class Lobby {
 
     public boolean joinLobby(Player player){
         // Validation Checks
-        // if(waiting != StateMachine.AWAITING_PLAYERS || activePlayers.size() >= MAX_PLAYERS) return false;
-        // if(player.getID() == null) return false; // no user ID
+        if(activePlayers.size() >= MAX_PLAYERS) return false;
         
+        if(activePlayers.containsKey(player.getPlayerUUID())) return false; //duplicate user 
+
         return true;
-        
     }
     
 

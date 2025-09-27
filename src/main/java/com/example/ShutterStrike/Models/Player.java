@@ -2,7 +2,6 @@ package com.example.ShutterStrike.Models;
 
 import lombok.Getter;
 import lombok.Setter;
-//import lombok.NoArgsConstructor;
 
 public class Player{
 
@@ -10,39 +9,40 @@ public class Player{
     //Player Data
     @Setter
     @Getter
-    //@NoArgsConstructor
+    private String playerUUID;
     private String playerName; 
     private String playerClass;
-    private int playerUUID;
     private int playerHealth;
     private boolean isHost;
+
+    User user = new User();
 
     // Nest player into User, because a lot of user data.
 
     //Player Constructor
-    public Player(String playerName, String playerClass, int playerUUID, int playerHealth, boolean isHost){
+    public Player(String playerName, String playerClass, String playerUUID, int playerHealth, boolean isHost, User user){
         this.playerName = playerName;
         this.playerClass = playerClass;
         this.playerUUID = playerUUID;
         this.playerHealth = playerHealth;
         this.isHost = isHost;
+        this.user = user;
     }
     
     //Default Constructor
     public Player(){
-        this(null,null,0,0,false);
+        this(null,null,null,0,false, null);
     }
 
-    
-
-    /*public void takeDamage(){
+    public void takeDamage(){
         if(this.playerHealth > 0){
             this.playerHealth =- 1;
         }
         else{
             System.out.println("Player is dead");
         }
-        */
+    }
+    
     
 }
 
