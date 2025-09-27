@@ -4,23 +4,27 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Player{
-
     
     //Player Data
+    private int playerUUID;
     @Setter
     @Getter
-    private String playerUUID;
     private String playerName; 
+    @Setter
+    @Getter
     private String playerClass;
+    @Setter
+    @Getter
     private int playerHealth;
+    @Setter
+    @Getter
     private boolean isHost;
-
-    User user = new User();
-
-    // Nest player into User, because a lot of user data.
+    @Setter
+    @Getter
+    private User user;
 
     //Player Constructor
-    public Player(String playerName, String playerClass, String playerUUID, int playerHealth, boolean isHost, User user){
+    public Player(String playerName, String playerClass, int playerUUID, int playerHealth, boolean isHost, User user){
         this.playerName = playerName;
         this.playerClass = playerClass;
         this.playerUUID = playerUUID;
@@ -31,18 +35,28 @@ public class Player{
     
     //Default Constructor
     public Player(){
-        this(null,null,null,0,false, null);
+        this(null,null,0,0,false, null);
     }
 
-    public void takeDamage(){
+
+    public void takeDamage(int damage){
         if(this.playerHealth > 0){
-            this.playerHealth =- 1;
+            playerHealth = playerHealth - damage;
         }
+
+        if(playerHealth < 0){
+            playerHealth = 0; // Just in case
+        }
+
         else{
-            System.out.println("Player is dead");
+            System.out.println(this.playerName + " is dead"); //temp 
         }
+    }    
+    public void setPlayerUUID(int playerUUID){ 
+        this.playerUUID = playerUUID;
     }
-    
-    
+    public int getPlayerUUID(){
+        return playerUUID;
+    }
 }
 
