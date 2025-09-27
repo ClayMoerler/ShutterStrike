@@ -3,6 +3,7 @@ import StyledButton from '../components/StyledButton';
 import SettingsIcon from '../assets/images/cog.svg';
 import IconButton from '../components/IconButton';
 import StyledTextInput from '@/components/StyledTextInput';
+import { initLobby } from '@/api/api-calls';
 import { useRouter } from 'expo-router'; 
 
 
@@ -24,7 +25,10 @@ export default function Index() {
         
         <StyledButton 
           title="Start Lobby" 
-          onPress={() => router.push('/lobby_host')} 
+          onPress={() => {
+            router.push('/lobby_host')
+            initLobby();
+          }}
         />
         
         <View style={styles.buttonContainer}>
