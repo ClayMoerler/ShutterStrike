@@ -1,4 +1,0 @@
-public constData { 
-    //Default Variables
-    public final int START_HEALTH = 3;
-}
