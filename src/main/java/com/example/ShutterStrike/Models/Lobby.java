@@ -14,7 +14,7 @@
         int playerID = player.getPlayerUUID();
         
         // Storing players. Key: PlayerId, Value: Player Obj
-        private final Map<Integer, Player> activePlayers = new ConcurrentHashMap<>();
+        private final Map<String, Player> activePlayers = new ConcurrentHashMap<>();
 
 
         public boolean playerCount(){

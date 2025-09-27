@@ -78,9 +78,6 @@ public class Storm {
                 break;
             }
         }
-        
-        //System.out.println("Storm Shrunk! New Center: (" + this.centerX + ", " + this.centerY + "), New Radius: " + this.radius);
-        
         // FUTURE STEP: Apply damage to players outside the new safe zone border
         // this.applyStormDamage(); 
     }  
