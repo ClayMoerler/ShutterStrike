@@ -1,4 +1,4 @@
-package com.example.ShutterStrike.Model.Player;
+package com.example.ShutterStrike.Models;
 
 public class Player {
 
