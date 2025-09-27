@@ -1,19 +1,17 @@
-package com.example.ShutterStrike.StateMachine;
+package com.example.ShutterStrike.GameStateMachine;
+
+import org.springframework.stereotype.Service;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Component
+@Service
 @EnableScheduling
 @Slf4j
 public class StateMachine {
 
-    public static final StateMachine AWAITING_PLAYERS = null;
-
-    public enum States {
+    private enum States {
         IDLE,
         AWAITING_PLAYERS,
         GAME_INIT,
@@ -21,40 +19,35 @@ public class StateMachine {
         GAME_RESULTS
     }
 
-    private States gameState = States.IDLE;
+    public volatile States gameState = States.IDLE;
 
-    @Scheduled(fixedDelay = 200)
+    @Scheduled(fixedDelay = 1000)
     public void superLoop() {
 
         switch (gameState) {
             case IDLE:
                 printGameState();            
 
-                gameState = States.AWAITING_PLAYERS;
                 break;
 
             case AWAITING_PLAYERS:
                 printGameState();            
 
-                gameState = States.GAME_INIT;
                 break;
 
             case GAME_INIT:
                 printGameState();            
 
-                gameState = States.GAME_ONGOING;
                 break;
 
             case GAME_ONGOING:
                 printGameState();            
 
-                gameState = States.GAME_RESULTS;
                 break;
 
             case GAME_RESULTS:
                 printGameState();            
 
-                gameState = States.IDLE;
                 break;
         }
     }
@@ -62,4 +55,23 @@ public class StateMachine {
     private void printGameState() {
         log.info("Current State: {}", gameState);
     }
+
+    public String getCurrentState() {
+        return gameState.name();
+    }
+
+    //
+    // GAME LOGIC
+    //
+
+    public void initLobby() {
+        if(gameState == States.IDLE) {
+            log.info("Initializing lobby");
+            gameState = States.AWAITING_PLAYERS;
+        }
+        else {
+            log.info("Invalid lobby initialization. Wrong state.");
+        }
+    }
+
 }
