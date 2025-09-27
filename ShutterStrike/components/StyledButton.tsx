@@ -1,5 +1,3 @@
-// In your components/StyledButton.js file
-
 import React from 'react';
 import { Pressable, Text, StyleSheet, ViewStyle } from 'react-native';
 
@@ -7,12 +5,11 @@ import { Pressable, Text, StyleSheet, ViewStyle } from 'react-native';
 type StyledButtonProps = {
   title: string;
   onPress: () => void;
-  style?: ViewStyle; // <-- 1. Add an optional style prop
+  style?: ViewStyle; 
 };
 
 export default function StyledButton({ title, onPress, style }: StyledButtonProps) {
   return (
-    // 2. Merge the default styles with the passed-in style
     <Pressable style={[styles.button, style]} onPress={onPress}>
       <Text style={styles.text}>{title}</Text>
     </Pressable>

@@ -2,8 +2,12 @@ import { Text, View, StyleSheet } from 'react-native';
 import StyledButton from '../components/StyledButton';
 import SettingsIcon from '../assets/images/cog.svg';
 import IconButton from '../components/IconButton';
+import StyledTextInput from '@/components/StyledTextInput';
+import { useRouter } from 'expo-router'; 
+
 
 export default function Index() {
+  const router = useRouter();
   return (
     <View style={styles.container}>
 
@@ -20,16 +24,24 @@ export default function Index() {
         
         <StyledButton 
           title="Start Lobby" 
-          onPress={() => alert('Button 1 pressed!')} 
+          onPress={() => router.push('/lobby_host')} 
         />
         
-        {/* This container will span the full width and push the button to the right */}
         <View style={styles.buttonContainer}>
+
+          <StyledTextInput
+            placeholder='Room Code'
+            placeholderTextColor="#ffffff3b"
+            style={{ width: '65%', marginVertical: 0 }}
+            />
+
+
           <StyledButton 
-            title="Join Lobby" 
-            onPress={() => alert('Button 2 pressed!')} 
+            title="Go" 
+            onPress={() => router.push('/lobby_player')}  
             style={{ width: '30%' }}
           />
+
         </View>
       </View>
     </View>
@@ -51,8 +63,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonContainer: {
-    width: '100%', 
-    alignItems: 'flex-end', 
+    flexDirection: 'row', 
+    width: '100%',
+    alignItems: 'center', 
+    justifyContent: 'space-between',
   },
   title: {
     fontSize: 28,
