@@ -5,6 +5,7 @@ import lombok.Setter;
 
 public class Player{
     
+
     //Player Data
     private int playerUUID;
     @Setter
@@ -38,6 +39,12 @@ public class Player{
         this(null,null,0,0,false, null);
     }
 
+    public void setPlayerUUID(int playerUUID){ 
+        this.playerUUID = playerUUID;
+    }
+    public int getPlayerUUID(){
+        return playerUUID;
+    }
 
     public void takeDamage(int damage){
         if(this.playerHealth > 0){
@@ -47,16 +54,7 @@ public class Player{
         if(playerHealth < 0){
             playerHealth = 0; // Just in case
         }
-
-        else{
-            System.out.println(this.playerName + " is dead"); //temp 
-        }
-    }    
-    public void setPlayerUUID(int playerUUID){ 
-        this.playerUUID = playerUUID;
     }
-    public int getPlayerUUID(){
-        return playerUUID;
-    }
+    
 }
 
