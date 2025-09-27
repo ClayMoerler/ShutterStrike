@@ -2,6 +2,7 @@ package com.example.ShutterStrike.Models;
 
 import lombok.Getter;
 import lombok.Setter;
+//import lombok.NoArgsConstructor;
 
 public class Player{
 
@@ -9,6 +10,7 @@ public class Player{
     //Player Data
     @Setter
     @Getter
+    //@NoArgsConstructor
     private String playerName; 
     private String playerClass;
     private int playerUUID;
@@ -27,7 +29,16 @@ public class Player{
     //Default Constructor
     public Player(){
         this(null,null,0,0,false);
-
     }
+
+    /*public void takeDamage(){
+        if(this.playerHealth > 0){
+            this.playerHealth =- 1;
+        }
+        else{
+            System.out.println("Player is dead");
+        }
+        */
+    
 }
 

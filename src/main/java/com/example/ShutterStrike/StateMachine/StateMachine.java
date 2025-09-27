@@ -1,17 +1,17 @@
 package com.example.ShutterStrike.StateMachine;
 
-import org.springframework.stereotype.Component;
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Component
 @EnableScheduling
 @Slf4j
 public class StateMachine {
 
-    private enum States {
+    public enum States {
         IDLE,
         AWAITING_PLAYERS,
         GAME_INIT,
