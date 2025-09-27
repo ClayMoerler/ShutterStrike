@@ -4,7 +4,6 @@ import SettingsIcon from '../assets/images/cog.svg';
 import IconButton from '../components/IconButton';
 import StyledTextInput from '@/components/StyledTextInput';
 import { initLobby, sendUserData } from '@/api/api-calls';
-import { generateUUID } from '@/util/utilities';
 import { useRouter } from 'expo-router'; 
 import { SafeAreaView } from 'react-native-safe-area-context'
 
