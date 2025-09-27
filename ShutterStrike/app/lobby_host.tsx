@@ -18,12 +18,12 @@ export default function LobbyScreen() {
           <StyledButton 
             title="Game Options" 
             onPress={() => router.push('/lobby_player')}  
-            style={{ width: '65%' }}
+            style={{ width: '60%' }}
           />
           <StyledButton 
-            title="Go" 
+            title="Set Zone" 
             onPress={() => router.push('/lobby_player')}  
-            style={{ width: '30%' }}
+            style={{ width: '35%' }}
           />
         </View>
 
@@ -37,12 +37,12 @@ export default function LobbyScreen() {
 
       <View style={styles.buttonContainer}>
           <StyledButton 
-            title="Go" 
+            title="Class" 
             onPress={() => router.push('/lobby_player')}  
             style={{ width: '47%' }}
           />
           <StyledButton 
-            title="Go" 
+            title="Start" 
             onPress={() => router.push('/lobby_player')}  
             style={{ width: '47%' }}
           />

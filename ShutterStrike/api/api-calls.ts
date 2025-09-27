@@ -4,7 +4,7 @@ import { generateUUID, grabFaceMap } from "@/util/utilities";
 
 export const initLobby = async () : Promise<void> => {
     try {
-        await axios.post(DEV_URI, null);
+        await axios.post(DEV_URI+"/api/game/start", null);
         console.log("Sent lobby initialization signal")
     }
     catch(error) {
@@ -20,7 +20,7 @@ export const sendUserData = async() : Promise<void> => {
     }
 
     try {
-        await axios.post(DEV_URI, userDataPayload);
+        await axios.post(DEV_URI+"/api/player/user", userDataPayload);
         console.log("Sent user data")
     }
     catch(error) {
