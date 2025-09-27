@@ -3,7 +3,7 @@ import StyledButton from '../components/StyledButton';
 import SettingsIcon from '../assets/images/cog.svg';
 import IconButton from '../components/IconButton';
 import StyledTextInput from '@/components/StyledTextInput';
-import { initLobby } from '@/api/api-calls';
+import { initLobby, sendUserData } from '@/api/api-calls';
 import { generateUUID } from '@/util/utilities';
 import { useRouter } from 'expo-router'; 
 
@@ -29,7 +29,7 @@ export default function Index() {
           onPress={() => {
             router.push('/lobby_host')
             initLobby();
-            generateUUID();
+            sendUserData();
           }}
         />
         
@@ -46,7 +46,7 @@ export default function Index() {
             title="Go" 
             onPress={() =>{ 
               router.push('/lobby_player')
-              generateUUID(); 
+              sendUserData(); 
             }}
             style={{ width: '30%' }}
           />
