@@ -12,6 +12,10 @@ export async function startLocationTracking(
     return;
   }
 
+  // blocks this method from being invoked multiple times
+  if(locationSubscription)
+    await stopLocationTracking
+
   locationSubscription = await Location.watchPositionAsync(
     {
       accuracy: Location.Accuracy.High,
