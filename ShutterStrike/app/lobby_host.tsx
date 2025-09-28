@@ -4,20 +4,23 @@ import HorizontalScroller from '../components/HorizontalScroller';
 import StyledButton from '../components/StyledButton';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
+// Import the new component and its types
 import InteractiveMap, { InteractiveMapRef, ZoneData } from '../components/InteractiveMap';
 
 export default function LobbyScreen() {
   const router = useRouter();
   const interactiveMapRef = useRef<InteractiveMapRef>(null);
   
-  // This screen now only needs to know about the final, saved zone
   const [savedZone, setSavedZone] = useState<ZoneData | null>(null);
 
   const handleSetZone = () => {
-    // Call the method on the InteractiveMap component to get the data
     const newZoneData = interactiveMapRef.current?.getCalculatedZone();
     if (newZoneData) {
       setSavedZone(newZoneData);
+      
+      // NEW: Print the captured zone data to the console
+      console.log('Zone Data Set:', JSON.stringify(newZoneData, null, 2));
+
       Alert.alert(
         "Zone Set!",
         `The game zone is now locked to the area inside the red circle.`,
@@ -73,7 +76,6 @@ export default function LobbyScreen() {
           />
         </View>
 
-      {/* The new, self-contained InteractiveMap component */}
       <InteractiveMap ref={interactiveMapRef} />
 
       <View style={styles.buttonContainer}>

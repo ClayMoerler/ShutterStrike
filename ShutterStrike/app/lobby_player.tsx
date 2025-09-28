@@ -8,10 +8,10 @@ import ZonedMapComponent from '../components/ZonedMapComponent'; // Import the n
 
 const GAME_ZONE = {
   center: {
-    latitude: 37.78825,
-    longitude: -122.4324,
+    latitude: 20.638553832144332,
+    longitude: -76.32894225418568,
   },
-  radius: 500, // in meters
+  radius: 63279.22279608262, // in meters
 };
 
 export default function LobbyPlayerScreen() {
