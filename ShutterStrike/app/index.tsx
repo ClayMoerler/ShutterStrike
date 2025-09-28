@@ -6,7 +6,7 @@ import StyledTextInput from '@/components/StyledTextInput';
 import { initLobby, sendUserData } from '@/api/api-calls';
 import { useRouter } from 'expo-router'; 
 import { SafeAreaView } from 'react-native-safe-area-context'
-
+import { startLocationTracking } from '@/api/location-tracker';
 
 export default function Index() {
   const router = useRouter();
@@ -29,6 +29,9 @@ export default function Index() {
           onPress={() => {
             initLobby();
             sendUserData();
+            startLocationTracking(({ latitude, longitude }) => {
+              console.log('Live location:', latitude, longitude);
+            });
             router.push('/lobby_host')
           }}
         />

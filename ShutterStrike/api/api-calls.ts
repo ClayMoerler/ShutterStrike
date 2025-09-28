@@ -35,7 +35,7 @@ export const sendUserData = async () : Promise<boolean> => {
             }
         }
         
-        console.error("An unexpected error occurred:", error);
-        throw error; 
+        console.log("An unexpected error occurred:", error);
+        return false;
     }
 }
