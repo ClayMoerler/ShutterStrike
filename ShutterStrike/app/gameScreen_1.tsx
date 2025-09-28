@@ -1,10 +1,10 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
+import React, { useEffect, useRef } from "react";
+import { View, StyleSheet, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CameraComponent from "../components/CameraComponent";
 import GameBanner from "../components/GameBanner";
-import GameInteractables from "../components/GameInteractables"; // 👈 import
-import { useRouter } from "expo-router";
+import GameInteractables from "../components/GameInteractables";
+import { useRouter, useNavigation } from "expo-router";
 
 export default function GameScreen_1() {
   const handlePhotoTaken = (uri: string) => {
@@ -12,6 +12,38 @@ export default function GameScreen_1() {
   };
 
   const router = useRouter();
+  const navigation = useNavigation();
+  const allowExitRef = useRef(false); // prevents popup on intentional quit
+
+  useEffect(() => {
+    const listener = navigation.addListener("beforeRemove", (e) => {
+      // If we already allowed exit, skip popup
+      if (allowExitRef.current) return;
+
+      // Only intercept back gestures / hardware back
+      if (e.data.action.type !== "GO_BACK") return;
+
+      e.preventDefault();
+
+      Alert.alert(
+        "Quit Game?",
+        "Are you sure you want to quit? Progress will be lost.",
+        [
+          { text: "Cancel", style: "cancel", onPress: () => {} },
+          {
+            text: "Quit",
+            style: "destructive",
+            onPress: () => {
+              allowExitRef.current = true;
+              router.replace("/"); // back to home page
+            },
+          },
+        ]
+      );
+    });
+
+    return listener;
+  }, [navigation, router]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -32,13 +64,12 @@ export default function GameScreen_1() {
         {/* HUD Overlay - Bottom */}
         <GameInteractables
           playerClass="cleric"
-          cameraCooldown={false} // 👈 ignored since map has no cooldown
+          cameraCooldown={false}
           classAbilityCooldown={false}
-          onMapPress={() => router.push("/gameScreen_0")} // 👈 go back to map screen
+          onMapPress={() => router.push("/gameScreen_0")} // 👈 programmatic nav unaffected
           onClassAbilityPress={() => console.log("Class ability pressed")}
-          showMapButton={true} // 👈 show map here
+          showMapButton={true}
         />
-
       </View>
     </SafeAreaView>
   );
