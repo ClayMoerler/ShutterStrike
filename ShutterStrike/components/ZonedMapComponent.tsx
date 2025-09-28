@@ -144,6 +144,7 @@ export default function ZonedMapComponent({
       maxDelta={maxAllowedDelta}
       onRegionChangeComplete={handleRegionChangeComplete}
       showsUserLocation={true}
+      showsMyLocationButton={false}
     >
       {/* The Polygon creates the red overlay with a transparent circular hole */}
       <Polygon

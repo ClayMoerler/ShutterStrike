@@ -20,8 +20,8 @@ export default function MapComponent({ onRegionChange }: MapComponentProps) {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       }}
-      // This prop calls your function whenever the user stops moving the map
       onRegionChangeComplete={onRegionChange}
+      showsMyLocationButton={false} // 👈 hides the default button
     />
   );
 }

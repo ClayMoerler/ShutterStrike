@@ -29,18 +29,20 @@ export default function GameScreen_0() {
         <GameBanner 
           lives={3} 
           maxLives={5} 
-          gameTimer={60} 
-          active={true} 
+          gameTimer={999}
+          nextZoneCountdown={999} 
+          gracePeriodActive= {false}
+          gracePeriodTimer= {101}
         />
 
         {/* HUD Overlay - Bottom */}
         <GameInteractables 
           playerClass="cleric" 
           cameraCooldown={false} 
-          classAbilityCooldown={true} 
-          onCameraPress={() => {console.log("Camera pressed"); router.push('/gameScreen_1')
-}}
+          classAbilityCooldown={false} 
+          onCameraPress={() => { console.log("Camera pressed"); router.push("/gameScreen_1"); }}
           onClassAbilityPress={() => console.log("Class ability pressed")}
+          showMapButton={false} // 👈 show camera here
         />
       </View>
     </SafeAreaView>
