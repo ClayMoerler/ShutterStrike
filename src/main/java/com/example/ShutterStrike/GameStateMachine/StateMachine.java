@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.ShutterStrike.Constants.Constants;
 import com.example.ShutterStrike.Models.Lobby;
-import com.example.ShutterStrike.Models.MatchTimer;
 import com.example.ShutterStrike.Models.Player;
 import com.example.ShutterStrike.Models.Storm;
 import com.example.ShutterStrike.Models.User;
@@ -20,12 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class StateMachine {
 
-    private MatchTimer matchTimer;
-
-    public StateMachine(MatchTimer matchTimer) {
-        this.matchTimer = matchTimer;
-    }
-
     public enum States {
         IDLE,
         AWAITING_PLAYERS,
@@ -34,6 +27,17 @@ public class StateMachine {
         GAME_RESULTS
     }
 
+    //Timer
+    int graceSeconds = 30;
+    private boolean gracePeriodActive = true;
+    private boolean matchActive = false;
+    private double matchTimer = 300;
+    
+    //Storm Timer
+    private int stormShrinkCountdown; 
+    private int shrinkIntervalSeconds;
+
+    //Objects
     private Lobby lobby;
     private Storm storm;
     protected  Player player;
@@ -64,10 +68,25 @@ public class StateMachine {
                     log.warn("Lobby or storm not initialized");
                     return;
                 }
-
-                matchTimer.startGracePeriod();
-
-                storm.shrinkZoneIfReady();
+                
+                // need to add a check so players cant hurt each other 
+                if(graceSeconds > 0){
+                    graceSeconds--;
+                    log.info("{} seconds of grace remaining.", graceSeconds);
+                }else{
+                    gracePeriodActive = false;
+                    log.info("Grace has ended.");
+                }
+                
+                if (!gracePeriodActive && matchActive) {
+                    if (stormShrinkCountdown > 0) {
+                        stormShrinkCountdown--;
+                    } else {
+                        stormShrinkCountdown = shrinkIntervalSeconds; // reset timer
+                        storm.shrinkZoneIfReady();
+                        log.info("Storm has shrunk!");
+                    }
+                }
 
                 for (Player player : lobby.getActivePlayers()) {
                     
