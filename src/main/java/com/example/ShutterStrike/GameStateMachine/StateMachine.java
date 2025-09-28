@@ -1,10 +1,12 @@
 package com.example.ShutterStrike.GameStateMachine;
 
 import org.springframework.stereotype.Service;
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import lombok.extern.slf4j.Slf4j;
+import java.util.ArrayList;
+import com.example.ShutterStrike.Models.User;
+import com.example.ShutterStrike.Constants.Constants;
 
 @Service
 @EnableScheduling
@@ -20,39 +22,41 @@ public class StateMachine {
     }
 
     public volatile States gameState = States.IDLE;
+    public ArrayList<User> newUsersBuffer = new ArrayList<User>();
 
     @Scheduled(fixedDelay = 1000)
     public void superLoop() {
 
         switch (gameState) {
             case IDLE:
-                printGameState();            
+
                 break;
 
             case AWAITING_PLAYERS:
-                printGameState();            
+                for(int i = 0; i < newUsersBuffer.size() && i < Constants.MAX_PLAYERS; i++) {
+                    log.info("User {}: {}", i, newUsersBuffer);
+
+
+
+                }
                 break;
 
             case GAME_INIT:
-                printGameState();            
+
                 break;
 
             case GAME_ONGOING:
-                printGameState();            
+
                 break;
 
             case GAME_RESULTS:
-                printGameState();            
+
                 break;
         }
     }
 
     private void printGameState() {
         log.info("Current State: {}", gameState);
-    }
-
-    public String getCurrentState() {
-        return gameState.name();
     }
 
     //
@@ -63,6 +67,7 @@ public class StateMachine {
         if(gameState == States.IDLE) {
             log.info("Initializing lobby");
             gameState = States.AWAITING_PLAYERS;
+            printGameState();
         }
         else {
             log.info("Invalid lobby initialization. Wrong state.");

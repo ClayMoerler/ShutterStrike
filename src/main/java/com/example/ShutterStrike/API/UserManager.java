@@ -2,10 +2,6 @@ package com.example.ShutterStrike.API;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.net.http.HttpResponse;
-
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +26,7 @@ public class UserManager {
     public ResponseEntity<String> receiveUserData(@RequestBody User user) {
         log.info("Received new user: {}", user.toString());
 
-        if(stateMachine.gameState == States.IDLE) {
+        if(stateMachine.gameState != States.AWAITING_PLAYERS) {
             log.info("Player {} connected during IDLE state. Rejecting.", user.getUUID());
             return ResponseEntity
                 .status(406)
@@ -38,6 +34,9 @@ public class UserManager {
         }
 
         log.info("Saving player {}", user.getUUID());
+
+        stateMachine.newUsersBuffer.add(user);
+
         return ResponseEntity
             .status(200)
             .body("Success");
