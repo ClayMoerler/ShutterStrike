@@ -7,7 +7,9 @@ public class Player{
     
 
     //Player Data
-    private int playerUUID;
+    @Setter
+    @Getter
+    private String playerUUID;
     @Setter
     @Getter
     private String playerName; 
@@ -25,7 +27,7 @@ public class Player{
     private User user;
 
     //Player Constructor
-    public Player(String playerName, String playerClass, int playerUUID, int playerHealth, boolean isHost, User user){
+    public Player(String playerName, String playerClass, String playerUUID, int playerHealth, boolean isHost, User user){
         this.playerName = playerName;
         this.playerClass = playerClass;
         this.playerUUID = playerUUID;
@@ -36,14 +38,7 @@ public class Player{
     
     //Default Constructor
     public Player(){
-        this(null,null,0,0,false, null);
-    }
-
-    public void setPlayerUUID(int playerUUID){ 
-        this.playerUUID = playerUUID;
-    }
-    public int getPlayerUUID(){
-        return playerUUID;
+        this(null,null,null,0,false, null);
     }
 
     public void takeDamage(int damage){
@@ -54,6 +49,10 @@ public class Player{
         if(playerHealth < 0){
             playerHealth = 0; // Just in case
         }
+    }
+
+    public boolean isDead(){
+        return this.playerHealth == 0;
     }
     
 }
