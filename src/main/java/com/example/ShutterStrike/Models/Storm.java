@@ -30,7 +30,7 @@ public class Storm {
     public double radius;
     protected  double nextRadius;
 
-    private Player player;
+    protected Player player;
     
     private boolean initialized = false; // to prevent shrinking before use data arrives
 
@@ -47,8 +47,8 @@ public class Storm {
     }
     
     public void updateStormStatus(Player player) {
-    double playerX = player.getLongitude();
-    double playerY = player.getLatitude();
+    double playerX = player.stormStatus.getLongitude();
+    double playerY = player.stormStatus.getLatitude();
     
     double distanceFromCenter = Math.sqrt(Math.pow(playerX - centerX, 2) + Math.pow(playerY - centerY, 2));
     
@@ -57,13 +57,13 @@ public class Storm {
     double currentTime = System.currentTimeMillis() / 1000.0; // seconds
 
     if (isCurrentlyInStorm) {
-        if (!player.isInStorm()) {
-            player.setInStorm(true);
-            player.setStormEntryTime(currentTime);
+        if (!player.stormStatus.isInStorm()) {
+            player.stormStatus.setInStorm(true);
+            player.stormStatus.setStormEntryTime(currentTime);
             log.info("{} entered the storm!", player.getPlayerName());
         } else {
             // Already in storm, calculate time
-            double timeInStorm = currentTime - player.getStormEntryTime();
+            double timeInStorm = currentTime - player.stormStatus.getStormEntryTime();
             int damageInterval = 10;
             int damage = 1;
 
@@ -73,9 +73,9 @@ public class Storm {
             }
         }
     } else {
-        if (player.isInStorm()) {
-            player.setInStorm(false);
-            player.setStormEntryTime(0.0);
+        if (player.stormStatus.isInStorm()) {
+            player.stormStatus.setInStorm(false);
+            player.stormStatus.setStormEntryTime(0.0);
             log.info("{} escaped the storm!", player.getPlayerName());
         }
     }

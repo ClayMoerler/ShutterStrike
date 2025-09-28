@@ -4,8 +4,6 @@
     import java.util.Map;
     import java.util.concurrent.ConcurrentHashMap;
 
-    import lombok.Getter;
-
     import org.springframework.stereotype.Service;
 
     import com.example.ShutterStrike.Constants.Constants;
@@ -30,7 +28,7 @@
         public boolean addPlayer(Player player){
             if(activePlayers.size() < Constants.MAX_PLAYERS){
             this.player = player;
-            activePlayers.put(player.getPlayerUUID(), player);
+            activePlayers.put(player.user.getPlayerUUID(), player);
             playerCount();
             return true;
             }

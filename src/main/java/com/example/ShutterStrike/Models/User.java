@@ -1,13 +1,18 @@
 package com.example.ShutterStrike.Models;
-import lombok.Data;
 
-@Data
+import lombok.Getter;
+import lombok.Setter;
+
 public class User {
+    @Getter
+    @Setter
     String faceMap; //Placeholder
-    String UUID;
+    @Getter
+    @Setter
+    String playerUUID;
 
-    public User(String UUID, String faceMap){
-        this.UUID = UUID;
+    public User(String playerUUID, String faceMap){
+        this.playerUUID = playerUUID;
         this.faceMap = faceMap;
     }
 

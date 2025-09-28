@@ -8,9 +8,6 @@ public class Player{
     //Player Data
     @Setter
     @Getter
-    private String playerUUID;
-    @Setter
-    @Getter
     private String playerName; 
     @Setter
     @Getter
@@ -21,39 +18,22 @@ public class Player{
     @Setter
     @Getter
     private boolean isHost;
-    @Setter
-    @Getter
-    private User user;
-    @Setter
-    @Getter
-    private double longitude;
-    @Setter
-    @Getter
-    private double latitude;
-    @Setter
-    @Getter
-    private boolean inStorm;
-    @Setter
-    @Getter
-    private double stormEntryTime = 0;
+    protected   User user;
+    protected   StormStatus stormStatus;
 
     //Player Constructor
-    private  Player(String playerName, String playerClass, String playerUUID, int playerHealth, boolean isHost, 
-                    double longitude, double latitude, boolean inStorm, double stormEntryTime){
+    private  Player(String playerName, String playerClass, int playerHealth, boolean isHost, User user, StormStatus stormStatus){
         this.playerName = playerName;
         this.playerClass = playerClass;
-        this.playerUUID = playerUUID;
         this.playerHealth = playerHealth;
         this.isHost = isHost;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.inStorm = inStorm;
-        this.stormEntryTime = stormEntryTime;
+        this.user = user;
+        this.stormStatus = stormStatus;
     }
     
     //Default Constructor
     public Player(){
-        this(null,null,null,0,false, 0,0,false,0);
+        this(null,null,0,false,null,null);
     }
 
     public boolean isDead(){

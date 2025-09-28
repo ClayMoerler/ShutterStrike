@@ -30,7 +30,7 @@ public class StateMachine {
     
     private Lobby lobby;
     private Storm storm;
-    private Player player;
+    protected  Player player;
     public volatile States gameState = States.IDLE;
     public ArrayList<User> newUsersBuffer = new ArrayList<>();
 
@@ -39,7 +39,7 @@ public class StateMachine {
 
         switch (gameState) {
             case IDLE:
-
+                
                 break;
 
             case AWAITING_PLAYERS:

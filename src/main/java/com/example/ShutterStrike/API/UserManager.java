@@ -1,13 +1,14 @@
 package com.example.ShutterStrike.API;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import com.example.ShutterStrike.Models.User;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.example.ShutterStrike.GameStateMachine.StateMachine;
 import com.example.ShutterStrike.GameStateMachine.StateMachine.States;
+import com.example.ShutterStrike.Models.User;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,13 +28,13 @@ public class UserManager {
         log.info("Received new user: {}", user.toString());
 
         if(stateMachine.gameState != States.AWAITING_PLAYERS) {
-            log.info("Player {} connected during IDLE state. Rejecting.", user.getUUID());
+            log.info("Player {} connected during IDLE state. Rejecting.", user.getPlayerUUID());
             return ResponseEntity
                 .status(406)
-                .body("Player " + user.getUUID() + " connected during IDLE state. Rejecting");
+                .body("Player " + user.getPlayerUUID() + " connected during IDLE state. Rejecting");
         }
 
-        log.info("Saving player {}", user.getUUID());
+        log.info("Saving player {}", user.getPlayerUUID());
 
         stateMachine.newUsersBuffer.add(user);
 
