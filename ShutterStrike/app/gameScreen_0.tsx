@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import ZonedMapComponent from '../components/ZonedMapComponent';
 import GameBanner from '../components/GameBanner';
-import GameInteractables from '../components/GameInteractables'; // 👈 import
+import GameInteractables from '../components/GameInteractables'; 
 
 const GAME_ZONE = {
   center: {

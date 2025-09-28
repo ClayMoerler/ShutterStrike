@@ -5,14 +5,14 @@ import IconButton from '../components/IconButton';
 import StyledTextInput from '@/components/StyledTextInput';
 import { initLobby, sendUserData } from '@/api/api-calls';
 import { useRouter } from 'expo-router'; 
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { startLocationTracking } from '@/api/location-tracker';
 
 export default function Index() {
   const router = useRouter();
+
   return (
     <SafeAreaView style={styles.container}>
-
       <View style={styles.headerContainer}>
         <IconButton 
           IconComponent={SettingsIcon}
@@ -24,6 +24,7 @@ export default function Index() {
       <View style={styles.contentContainer}>
         <Text style={styles.title}>Shutter Strike</Text>
         
+        {/* Host Lobby */}
         <StyledButton 
           title="Start Lobby" 
           onPress={() => {
@@ -32,29 +33,31 @@ export default function Index() {
             startLocationTracking(({ latitude, longitude }) => {
               console.log('Live location:', latitude, longitude);
             });
-            router.push('/lobby_host')
+            router.push('/lobby_host');
           }}
         />
         
+        {/* Join Lobby */}
         <View style={styles.buttonContainer}>
-
           <StyledTextInput
-            placeholder='Room Code'
+            placeholder="Room Code"
             placeholderTextColor="#ffffff3b"
             style={{ width: '65%', marginVertical: 0 }}
-            />
-
+          />
 
           <StyledButton 
             title="Go" 
-            onPress = { async () =>{ 
-              const accepted = await sendUserData()
-              if(accepted) 
-                router.push('/lobby_player')
+            onPress={async () => { 
+              const accepted = await sendUserData();
+              if (accepted) {
+                startLocationTracking(({ latitude, longitude }) => {
+                  console.log('Live location:', latitude, longitude);
+                });
+                router.push('/lobby_player');
+              }
             }}
             style={{ width: '30%' }}
           />
-
         </View>
       </View>
     </SafeAreaView>
@@ -88,4 +91,3 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
 });
-
