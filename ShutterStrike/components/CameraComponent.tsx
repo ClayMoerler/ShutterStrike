@@ -1,5 +1,5 @@
 import React, { useRef, useState, useCallback } from "react";
-import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text, LayoutChangeEvent } from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 
@@ -7,19 +7,23 @@ type CameraComponentProps = {
   onPhotoTaken: (uri: string) => void;
   enableZoom?: boolean;
   facing?: "front" | "back";
+  popup?: boolean; // 👈 new prop to control button placement
 };
 
 export default function CameraComponent({
   onPhotoTaken,
   enableZoom = false,
   facing = "back",
+  popup = false,
 }: CameraComponentProps) {
   const [permission, requestPermission] = useCameraPermissions();
   const cameraRef = useRef<CameraView>(null);
   const [zoom, setZoom] = useState(0);
-  
+  const [containerWidth, setContainerWidth] = useState(0);
+
   const currentZoomRef = useRef(0);
 
+  // Pinch-to-zoom gesture
   const pinchGesture = React.useMemo(
     () =>
       Gesture.Pinch()
@@ -39,18 +43,19 @@ export default function CameraComponent({
     [enableZoom, zoom]
   );
 
+  // Take a photo
   const takePhoto = useCallback(async () => {
     if (cameraRef.current) {
       try {
-        const photo = await cameraRef.current.takePictureAsync({ 
+        const photo = await cameraRef.current.takePictureAsync({
           quality: 0.7,
-          skipProcessing: true 
+          skipProcessing: true,
         });
         if (photo?.uri) {
           onPhotoTaken(photo.uri);
         }
       } catch (error) {
-        console.warn('Photo capture failed:', error);
+        console.warn("Photo capture failed:", error);
       }
     }
   }, [onPhotoTaken]);
@@ -71,8 +76,22 @@ export default function CameraComponent({
 
   const safeZoom = Math.max(0, Math.min(1, isFinite(zoom) ? zoom : 0));
 
+  // 🔑 Scale capture button relative to container width
+  const buttonScale = popup ? 0.12 : 0.2; // smaller if popup=true
+  const buttonSize = containerWidth * buttonScale;
+  const captureButtonStyle = {
+    width: buttonSize,
+    height: buttonSize,
+    borderRadius: buttonSize / 2,
+  };
+
   return (
-    <View style={styles.container}>
+    <View
+      style={styles.container}
+      onLayout={(e: LayoutChangeEvent) =>
+        setContainerWidth(e.nativeEvent.layout.width)
+      }
+    >
       <GestureDetector gesture={pinchGesture}>
         <CameraView
           style={styles.camera}
@@ -81,33 +100,46 @@ export default function CameraComponent({
           ref={cameraRef}
         />
       </GestureDetector>
-      <TouchableOpacity style={styles.captureButton} onPress={takePhoto} />
+
+      {containerWidth > 0 && (
+        <TouchableOpacity
+          style={[
+            styles.captureButton,
+            captureButtonStyle,
+            popup ? styles.captureButtonPopup : styles.captureButtonDefault,
+          ]}
+          onPress={takePhoto}
+        />
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { 
+  container: {
     flex: 1,
-    backgroundColor: 'black'
+    backgroundColor: "black",
   },
   camera: { flex: 1 },
   captureButton: {
     position: "absolute",
-    bottom: 40,
-    alignSelf: "center",
-    width: 70,
-    height: 70,
-    borderRadius: 35,
     backgroundColor: "white",
-    borderWidth: 4,
+    borderWidth: 3,
     borderColor: "black",
   },
-  center: { 
-    flex: 1, 
-    justifyContent: "center", 
+  captureButtonDefault: {
+    bottom: 30,
+    alignSelf: "center", // centered bottom
+  },
+  captureButtonPopup: {
+    bottom: 10, // less padding
+    right: 10,  // bottom-right corner
+  },
+  center: {
+    flex: 1,
+    justifyContent: "center",
     alignItems: "center",
-    backgroundColor: 'black'
+    backgroundColor: "black",
   },
   requestBtn: {
     backgroundColor: "#007bff",
@@ -118,6 +150,6 @@ const styles = StyleSheet.create({
   requestBtnText: {
     color: "#fff",
     fontSize: 16,
-    fontWeight: '600'
+    fontWeight: "600",
   },
 });

@@ -8,9 +8,10 @@ interface SettingsModalProps {
 }
 
 export default function SettingsModal({ visible, onClose }: SettingsModalProps) {
-      const handlePhotoTaken = (uri: string) => {
+  const handlePhotoTaken = (uri: string) => {
     console.log("Photo captured at:", uri);
   };
+
   return (
     <Modal
       visible={visible}
@@ -20,23 +21,26 @@ export default function SettingsModal({ visible, onClose }: SettingsModalProps) 
     >
       <View style={styles.modalOverlay}>
         <View style={styles.modalContent}>
-        <View style={styles.cameraWrapper}><CameraComponent onPhotoTaken={handlePhotoTaken} enableZoom={false} /><View style={styles.cameraWrapper}/>
-            
+          
+          {/* 📸 Camera with enforced 4:3 ratio */}
+          <View style={styles.cameraWrapper}>
+            <CameraComponent 
+              onPhotoTaken={handlePhotoTaken} 
+              enableZoom={false} 
+              facing="front"
+              popup // 👈 smaller button in bottom-right
+            />
+          </View>
 
           <Text style={styles.description}>
-            Here you can put your settings options.
+            Scan your face!
           </Text>
 
-          <Pressable
-            style={styles.closeButton}
-            onPress={onClose}
-          >
+          <Pressable style={styles.closeButton} onPress={onClose}>
             <Text style={styles.closeButtonText}>Close</Text>
           </Pressable>
         </View>
       </View>
-    </View>
-
     </Modal>
   );
 }
@@ -49,21 +53,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalContent: {
-    width: '80%',
+    width: '85%',
     padding: 20,
     backgroundColor: '#333',
     borderRadius: 12,
     alignItems: 'center',
   },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 12,
-    color: '#fff',
+  cameraWrapper: {
+    width: "100%",          // take full modal width
+    aspectRatio: 3 / 4,     // 👈 force 4:3 preview
+    marginBottom: 15,
+    borderRadius: 12,
+    overflow: "hidden",
+    backgroundColor: "black", // avoids flicker
   },
   description: {
-    marginBottom: 20,
+    marginVertical: 12,
     color: '#ddd',
+    textAlign: "center",
   },
   closeButton: {
     marginTop: 10,
@@ -74,8 +81,5 @@ const styles = StyleSheet.create({
   closeButtonText: {
     color: '#fff',
     fontWeight: 'bold',
-  },
-    cameraWrapper: {
-    flex: 1,
   },
 });

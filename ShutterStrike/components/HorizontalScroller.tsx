@@ -2,17 +2,14 @@ import React from 'react';
 import { ScrollView, View, StyleSheet } from 'react-native';
 import WizardMale from '../assets/images/wizard_male.svg';
 
-const SCROLLER_ITEMS = [
-  { id: '1', Component: WizardMale },
-  { id: '2', Component: WizardMale },
-  { id: '3', Component: WizardMale },
-  { id: '4', Component: WizardMale },
-  { id: '5', Component: WizardMale },
-  { id: '6', Component: WizardMale },
-  { id: '7', Component: WizardMale },
-];
+type HorizontalScrollerProps = {
+  playerCount?: number; // optional
+};
 
-export default function HorizontalScroller() {
+export default function HorizontalScroller({ playerCount = 1 }: HorizontalScrollerProps) {
+  // Create an array [0, 1, 2, ..., playerCount-1]
+  const players = Array.from({ length: playerCount }, (_, i) => i);
+
   return (
     <View style={styles.scrollerContainer}>
       <ScrollView
@@ -20,9 +17,9 @@ export default function HorizontalScroller() {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scrollViewContent}
       >
-        {SCROLLER_ITEMS.map(({ id, Component }) => (
-          <View key={id} style={styles.item}>
-            <Component width={48} height={48} fill="#e0e0e0" />
+        {players.map((index) => (
+          <View key={index} style={styles.item}>
+            <WizardMale width={48} height={48} fill="#e0e0e0" />
           </View>
         ))}
       </ScrollView>
@@ -32,8 +29,7 @@ export default function HorizontalScroller() {
 
 const styles = StyleSheet.create({
   scrollerContainer: {
-    paddingVertical: 16, // ADDED - Gives space above and below the items
-    
+    paddingVertical: 16,
     backgroundColor: '#1c1f22',
     justifyContent: 'center',
     width: '100%',
