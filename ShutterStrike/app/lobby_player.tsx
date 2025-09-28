@@ -6,7 +6,6 @@ import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ZonedMapComponent from '../components/ZonedMapComponent'; // Import the new component
 
-// Define the center and radius for your game zone
 const GAME_ZONE = {
   center: {
     latitude: 37.78825,
@@ -21,7 +20,15 @@ export default function LobbyPlayerScreen() {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
       <HorizontalScroller />
-   
+
+<View style={styles.buttonContainer}>
+            <StyledButton 
+            title="Options" 
+            onPress={() => alert('Ready!')}  
+            style={{ width: '47%' }}
+          />
+</View>
+
       <View style={styles.mapContainer}>
         <ZonedMapComponent 
           zoneCenter={GAME_ZONE.center}
@@ -57,7 +64,7 @@ const styles = StyleSheet.create({
     width: '90%',
     alignSelf: 'center',
     borderRadius: 12,
-    overflow: 'hidden', // Ensures the map stays within the rounded corners
+    overflow: 'hidden',
   },
   buttonContainer: {
     flexDirection: 'row', 
