@@ -16,7 +16,7 @@ export async function startLocationTracking(
     {
       accuracy: Location.Accuracy.High,
       timeInterval: 500,
-      distanceInterval: 5,
+      distanceInterval: 1,
     },
     (loc) => {
       const { latitude, longitude } = loc.coords;
