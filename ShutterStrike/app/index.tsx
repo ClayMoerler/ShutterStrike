@@ -7,6 +7,10 @@ import { initLobby, sendUserData } from '@/api/api-calls';
 import { useRouter } from 'expo-router'; 
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { startLocationTracking } from '@/api/location-tracker';
+import { TextEncoder, TextDecoder } from 'text-encoding'
+
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
 
 export default function Index() {
   const router = useRouter();
