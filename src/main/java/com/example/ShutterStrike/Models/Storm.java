@@ -8,7 +8,9 @@ import com.example.ShutterStrike.Utilities.stormutil;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 public class Storm {
 
@@ -19,14 +21,16 @@ public class Storm {
     
     // Dependencies
     private final Random random = new Random();
-    private stormutil stormUtilities; // for math
+    protected stormutil stormUtilities; // for math
 
     @Getter
     @Setter
     private double centerX;
     private double centerY;
     public double radius;
-    private double nextRadius;
+    protected  double nextRadius;
+
+    private Player player;
     
     private boolean initialized = false; // to prevent shrinking before use data arrives
 
@@ -42,6 +46,41 @@ public class Storm {
         }
     }
     
+    public void updateStormStatus(Player player) {
+    double playerX = player.getLongitude();
+    double playerY = player.getLatitude();
+    
+    double distanceFromCenter = Math.sqrt(Math.pow(playerX - centerX, 2) + Math.pow(playerY - centerY, 2));
+    
+    boolean isCurrentlyInStorm = distanceFromCenter > radius;
+
+    double currentTime = System.currentTimeMillis() / 1000.0; // seconds
+
+    if (isCurrentlyInStorm) {
+        if (!player.isInStorm()) {
+            player.setInStorm(true);
+            player.setStormEntryTime(currentTime);
+            log.info("{} entered the storm!", player.getPlayerName());
+        } else {
+            // Already in storm, calculate time
+            double timeInStorm = currentTime - player.getStormEntryTime();
+            int damageInterval = 10;
+            int damage = 1;
+
+            if ((int) timeInStorm % damageInterval == 0) {
+                player.damage(damage);
+                log.info("{} takes {} storm damage. Current HP: {}", player.getPlayerName(), damage, player.getPlayerHealth());
+            }
+        }
+    } else {
+        if (player.isInStorm()) {
+            player.setInStorm(false);
+            player.setStormEntryTime(0.0);
+            log.info("{} escaped the storm!", player.getPlayerName());
+        }
+    }
+}
+
     public void shrinkZone(){
         if (!initialized) {
             // Waiting on data, might remove
@@ -77,8 +116,6 @@ public class Storm {
                 break;
             }
         }
-        // FUTURE STEP: Apply damage to players outside the new safe zone border
-        // this.applyStormDamage(); 
-    }  
+    }
 
 }

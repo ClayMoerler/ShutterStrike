@@ -1,21 +1,32 @@
     package com.example.ShutterStrike.Models;
 
+    import java.util.Collection;
     import java.util.Map;
     import java.util.concurrent.ConcurrentHashMap;
+
+    import lombok.Getter;
+
+    import org.springframework.stereotype.Service;
 
     import com.example.ShutterStrike.Constants.Constants;
 
     import lombok.extern.slf4j.Slf4j;
 
     @Slf4j
+    @Service
     public class Lobby {
         
         // Lobby Constants
-        private Player player;
+        protected Player player;
+        
         
         // Storing players. Key: PlayerId, Value: Player Obj
         private final Map<String, Player> activePlayers = new ConcurrentHashMap<>();
         
+        public Collection<Player> getActivePlayers() {
+        return activePlayers.values();
+        }
+
         public boolean addPlayer(Player player){
             if(activePlayers.size() < Constants.MAX_PLAYERS){
             this.player = player;

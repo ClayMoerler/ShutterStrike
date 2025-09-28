@@ -1,12 +1,18 @@
 package com.example.ShutterStrike.GameStateMachine;
 
-import org.springframework.stereotype.Service;
+import java.util.ArrayList;
+
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import lombok.extern.slf4j.Slf4j;
-import java.util.ArrayList;
-import com.example.ShutterStrike.Models.User;
+import org.springframework.stereotype.Service;
+
 import com.example.ShutterStrike.Constants.Constants;
+import com.example.ShutterStrike.Models.Lobby;
+import com.example.ShutterStrike.Models.Player;
+import com.example.ShutterStrike.Models.Storm;
+import com.example.ShutterStrike.Models.User;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @EnableScheduling
@@ -21,8 +27,12 @@ public class StateMachine {
         GAME_RESULTS
     }
 
+    
+    private Lobby lobby;
+    private Storm storm;
+    private Player player;
     public volatile States gameState = States.IDLE;
-    public ArrayList<User> newUsersBuffer = new ArrayList<User>();
+    public ArrayList<User> newUsersBuffer = new ArrayList<>();
 
     @Scheduled(fixedDelay = 1000)
     public void superLoop() {
@@ -44,7 +54,10 @@ public class StateMachine {
                 break;
 
             case GAME_ONGOING:
-                
+                for (Player player : lobby.getActivePlayers()) {
+                    storm.updateStormStatus(player);
+                }             
+
                 break;
 
             case GAME_RESULTS:
