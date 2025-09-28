@@ -35,8 +35,6 @@ public abstract class Wizards {
     }
 
     public void attack(Player target) { 
-        log.info(player.getPlayerName() + " attacks " + target.getPlayerName());
-    
     // Damage the target
     target.damage(this.damage); 
     }   

@@ -56,7 +56,7 @@ public class Storm {
         if (!player.stormStatus.isInStorm()) {
             player.stormStatus.setInStorm(true);
             player.stormStatus.setStormEntryTime(currentTime);
-            log.info("{} entered the storm!", player.getPlayerName());
+            log.info("player entered the storm!"); // edit with playername
         } else {
             // Already in storm, calculate time
             double timeInStorm = currentTime - player.stormStatus.getStormEntryTime();
@@ -65,14 +65,13 @@ public class Storm {
 
             if ((int) timeInStorm % damageInterval == 0) {
                 player.damage(damage);
-                log.info("{} takes {} storm damage. Current HP: {}", player.getPlayerName(), damage, player.getPlayerHealth());
+                log.info("player takes {} storm damage. Current HP: {}", damage, player.getPlayerHealth());// edit with plauyername 
             }
         }
     } else {
         if (player.stormStatus.isInStorm()) {
             player.stormStatus.setInStorm(false);
             player.stormStatus.setStormEntryTime(0.0);
-            log.info("{} escaped the storm!", player.getPlayerName());
         }
     }
 }

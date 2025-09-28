@@ -41,7 +41,7 @@
         public void removePlayer(String playerUUID) {
             Player removed = activePlayers.remove(playerUUID);
             if (removed != null) {
-                System.out.println(removed.getPlayerName() + " has left the lobby.");
+                System.out.println("player has left the lobby.");
             } else {
                 System.out.println("No player found with UUID: " + playerUUID);
             }
