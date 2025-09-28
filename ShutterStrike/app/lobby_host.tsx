@@ -1,15 +1,61 @@
-import React from 'react';
-import { Text, View, StyleSheet, StatusBar } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, StyleSheet, Alert } from 'react-native';
 import HorizontalScroller from '../components/HorizontalScroller';
-import MapComponent from '../components/MapComponent';
 import StyledButton from '../components/StyledButton';
-import { useRouter } from 'expo-router'; 
-import { SafeAreaView } from 'react-native-safe-area-context'
-
-
+import { useRouter } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import InteractiveMap, { InteractiveMapRef, ZoneData } from '../components/InteractiveMap';
 
 export default function LobbyScreen() {
-    const router = useRouter();
+  const router = useRouter();
+  const interactiveMapRef = useRef<InteractiveMapRef>(null);
+  
+  // This screen now only needs to know about the final, saved zone
+  const [savedZone, setSavedZone] = useState<ZoneData | null>(null);
+
+  const handleSetZone = () => {
+    // Call the method on the InteractiveMap component to get the data
+    const newZoneData = interactiveMapRef.current?.getCalculatedZone();
+    if (newZoneData) {
+      setSavedZone(newZoneData);
+      Alert.alert(
+        "Zone Set!",
+        `The game zone is now locked to the area inside the red circle.`,
+        [{ text: "OK" }]
+      );
+    } else {
+      Alert.alert("Error", "Could not set zone. Try moving the map slightly first.");
+    }
+  };
+
+  const handleStartGame = () => {
+    if (!savedZone) {
+      Alert.alert("Zone Not Set", "Please use the 'Set Zone' button before starting.");
+      return;
+    }
+    
+    const currentZone = interactiveMapRef.current?.getCalculatedZone();
+    if (!currentZone) {
+      Alert.alert("Map Error", "Could not read the current map position.");
+      return;
+    }
+
+    const tolerance = 0.0001; 
+    const isZoneUnchanged = 
+      Math.abs(currentZone.center.latitude - savedZone.center.latitude) < tolerance &&
+      Math.abs(currentZone.center.longitude - savedZone.center.longitude) < tolerance &&
+      Math.abs(currentZone.radius - savedZone.radius) < 1.0;
+
+    if (isZoneUnchanged) {
+      router.push('/lobby_player');
+    } else {
+      Alert.alert(
+        "Zone Mismatch",
+        "The map has been moved since the zone was set. Please press 'Set Zone' again to confirm the new area."
+      );
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <HorizontalScroller />
@@ -22,18 +68,13 @@ export default function LobbyScreen() {
           />
           <StyledButton 
             title="Set Zone" 
-            onPress={() => router.push('/lobby_player')}  
+            onPress={handleSetZone}
             style={{ width: '35%' }}
           />
         </View>
 
-      <View style={styles.mapContainer}>
-        <MapComponent />
-        
-        <View style={styles.invertedCircleOverlay} pointerEvents="none" />
-
-        <View style={styles.circleBorder} pointerEvents="none" />
-      </View>
+      {/* The new, self-contained InteractiveMap component */}
+      <InteractiveMap ref={interactiveMapRef} />
 
       <View style={styles.buttonContainer}>
           <StyledButton 
@@ -43,7 +84,7 @@ export default function LobbyScreen() {
           />
           <StyledButton 
             title="Start" 
-            onPress={() => router.push('/lobby_player')}  
+            onPress={handleStartGame}  
             style={{ width: '47%' }}
           />
         </View>
@@ -51,45 +92,11 @@ export default function LobbyScreen() {
   );
 }
 
+// --- Styles ---
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#25292e',
-  },
-  mapContainer: {
-    flex: 1,
-    width: '90%',
-    alignSelf: 'center',
-    borderRadius: 12,
-    overflow: 'hidden', 
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  invertedCircleOverlay: {
-    position: 'absolute',
-    width: 2000,  // A very large width
-    height: 2000, // A very large height
-    borderRadius: 1000, // Makes it a circle (half of width/height)
-    // This creates the transparent "hole" in the middle
-    borderWidth: 900, // (width / 2) - (hole_radius) = 1000 - 100 = 900
-    borderColor: 'rgba(255, 0, 0, 0.4)', // The semi-transparent red for shading
-  },
-  circleBorder: {
-    position: 'absolute',
-    width: 200,      // Same size as the transparent hole
-    height: 200,
-    borderRadius: 100,
-    borderWidth: 3,
-    borderColor: 'red', // The solid red border
-  },
-  mainContent: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    color: '#fff',
-    fontSize: 24,
   },
   buttonContainer: {
     flexDirection: 'row', 
@@ -100,4 +107,3 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
 });
-

@@ -1,38 +1,33 @@
 import React from 'react';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Region } from 'react-native-maps';
 import { StyleSheet } from 'react-native';
 
+// Define the props for the component
+type MapComponentProps = {
+  onRegionChange: (region: Region) => void;
+};
+
 /**
- * A component that renders a full-screen map.
- * It's set to an initial location but can be customized.
+ * A component that renders a map and reports its region changes.
  */
-export default function MapComponent() {
+export default function MapComponent({ onRegionChange }: MapComponentProps) {
   return (
     <MapView
       style={styles.map}
-      // The initial region to display on the map
       initialRegion={{
         latitude: 37.78825,
         longitude: -122.4324,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       }}
-      // You can customize map type, behavior, etc. here
-      // For example: mapType="hybrid"
-    >
-      {/* You can add markers for specific points of interest */}
-      <Marker
-        coordinate={{ latitude: 37.78825, longitude: -122.4324 }}
-        title={"San Francisco"}
-        description={"An initial marker."}
-      />
-    </MapView>
+      // This prop calls your function whenever the user stops moving the map
+      onRegionChangeComplete={onRegionChange}
+    />
   );
 }
 
 const styles = StyleSheet.create({
   map: {
-    // This style is crucial for making the map fill the entire background
     ...StyleSheet.absoluteFillObject,
   },
 });
