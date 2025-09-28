@@ -1,8 +1,9 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { SvgProps } from "react-native-svg";  // 👈 use react-native-svg props
+import { SvgProps } from "react-native-svg";  
 
 import CameraIcon from "@/assets/images/camera.svg";
+import MapIcon from "@/assets/images/map.svg"; // 👈 new map icon
 import ClairvoyantIcon from "@/assets/classcons/clairvoyant.svg";
 import ClericIcon from "@/assets/classcons/cleric.svg";
 import IllusionistIcon from "@/assets/classcons/illusionist.svg";
@@ -14,8 +15,10 @@ type GameInteractablesProps = {
   playerClass: "clairvoyant" | "cleric" | "illusionist";
   cameraCooldown: boolean;
   classAbilityCooldown: boolean;
-  onCameraPress: () => void;
+  onCameraPress?: () => void;
+  onMapPress?: () => void;
   onClassAbilityPress: () => void;
+  showMapButton?: boolean; // 👈 new prop
 };
 
 export default function GameInteractables({
@@ -23,7 +26,9 @@ export default function GameInteractables({
   cameraCooldown,
   classAbilityCooldown,
   onCameraPress,
+  onMapPress,
   onClassAbilityPress,
+  showMapButton = false,
 }: GameInteractablesProps) {
   // Pick correct class icon
   let ClassIcon: React.FC<SvgProps>;
@@ -43,15 +48,21 @@ export default function GameInteractables({
 
   return (
     <View style={styles.container}>
-      {/* Camera button */}
+      {/* Left button (Camera OR Map) */}
       <View style={styles.iconWrapper}>
-        <IconButton IconComponent={CameraIcon} size={60} onPress={onCameraPress} />
-        {cameraCooldown && (
-          <DisabledOverlay style={styles.overlay} width={60} height={60} />
+        {showMapButton ? (
+          <IconButton IconComponent={MapIcon} size={60} onPress={onMapPress!} />
+        ) : (
+          <>
+            <IconButton IconComponent={CameraIcon} size={60} onPress={onCameraPress!} />
+            {cameraCooldown && (
+              <DisabledOverlay style={styles.overlay} width={60} height={60} />
+            )}
+          </>
         )}
       </View>
 
-      {/* Class ability button */}
+      {/* Class ability button (always) */}
       <View style={styles.iconWrapper}>
         <IconButton IconComponent={ClassIcon} size={60} onPress={onClassAbilityPress} />
         {classAbilityCooldown && (
@@ -69,8 +80,9 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     flexDirection: "row",
-    justifyContent: "space-evenly",
+    justifyContent: "space-between", // ✅ edges
     alignItems: "center",
+    paddingHorizontal: 32,
     backgroundColor: "transparent",
   },
   iconWrapper: {
