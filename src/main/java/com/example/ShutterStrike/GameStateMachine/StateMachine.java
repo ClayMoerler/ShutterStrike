@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.ShutterStrike.Constants.Constants;
 import com.example.ShutterStrike.Models.Lobby;
+import com.example.ShutterStrike.Models.MatchTimer;
 import com.example.ShutterStrike.Models.Player;
 import com.example.ShutterStrike.Models.Storm;
 import com.example.ShutterStrike.Models.User;
@@ -19,6 +20,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class StateMachine {
 
+    private MatchTimer matchTimer;
+
+    public StateMachine(MatchTimer matchTimer) {
+        this.matchTimer = matchTimer;
+    }
+
     public enum States {
         IDLE,
         AWAITING_PLAYERS,
@@ -27,7 +34,6 @@ public class StateMachine {
         GAME_RESULTS
     }
 
-    
     private Lobby lobby;
     private Storm storm;
     protected  Player player;
@@ -39,7 +45,7 @@ public class StateMachine {
 
         switch (gameState) {
             case IDLE:
-                
+
                 break;
 
             case AWAITING_PLAYERS:
@@ -53,9 +59,24 @@ public class StateMachine {
 
                 break;
 
-            case GAME_ONGOING:
+            case GAME_ONGOING:                
+                if(lobby == null || storm == null){
+                    log.warn("Lobby or storm not initialized");
+                    return;
+                }
+
+                matchTimer.startGracePeriod();
+
+                storm.shrinkZoneIfReady();
+
                 for (Player player : lobby.getActivePlayers()) {
+                    
                     storm.updateStormStatus(player);
+
+                    if (player.isDead()) {
+                        log.info("{} has been eliminated.", player.getPlayerName());
+                        lobby.removePlayer(player.user.getPlayerUUID());
+                    }
                 }             
 
                 break;

@@ -18,8 +18,10 @@ public class Player{
     @Setter
     @Getter
     private boolean isHost;
-    protected   User user;
-    protected   StormStatus stormStatus;
+    public User user;
+    @Setter
+    @Getter
+    public StormStatus stormStatus;
 
     //Player Constructor
     private  Player(String playerName, String playerClass, int playerHealth, boolean isHost, User user, StormStatus stormStatus){
@@ -47,6 +49,7 @@ public class Player{
     public void damage(int amount) {
         this.playerHealth -= amount;
     }
+
 
     
 }
