@@ -2,53 +2,48 @@
 
     import java.util.Map;
     import java.util.concurrent.ConcurrentHashMap;
-    import java.util.logging.Level;
-    import java.util.logging.Logger;
-    
-    import com.example.ShutterStrike.Models.wizards.Enchanter;
 
+    import com.example.ShutterStrike.Constants.Constants;
 
+    import lombok.extern.slf4j.Slf4j;
+
+    @Slf4j
     public class Lobby {
         
         // Lobby Constants
-        private static final int MIN_PLAYERS_TO_START = 2;
-        private static final int MAX_PLAYERS = 14;
-
-        private static final Logger logger = Logger.getLogger(null);
-
         private Player player;
         
         // Storing players. Key: PlayerId, Value: Player Obj
         private final Map<String, Player> activePlayers = new ConcurrentHashMap<>();
         
         public boolean addPlayer(Player player){
-            if(activePlayers.size() < MAX_PLAYERS){
+            if(activePlayers.size() < Constants.MAX_PLAYERS){
             this.player = player;
             activePlayers.put(player.getPlayerUUID(), player);
             playerCount();
             return true;
             }
             else{
-                logger.log(null, "Max player limit is reached.");
+                log.info("Max player limit is reached.");
                 return false;    
             }
         }
 
-        /* 
-        public void removePlayer(){
-            if(!playerConnected){
-                activePlayers.remove(player.getPlayerUUID());
-            }    
-        }
-        */
-
+        public void removePlayer(String playerUUID) {
+            Player removed = activePlayers.remove(playerUUID);
+            if (removed != null) {
+                System.out.println(removed.getPlayerName() + " has left the lobby.");
+            } else {
+                System.out.println("No player found with UUID: " + playerUUID);
+            }
+        }       
 
         public int playerCount(){
             return activePlayers.size();
         }
 
         public boolean lobbyValidation(){
-            return MIN_PLAYERS_TO_START >= 2;
+            return playerCount() < 14 && playerCount() > Constants.MIN_PLAYERS_TO_START;
         }       
 
     }

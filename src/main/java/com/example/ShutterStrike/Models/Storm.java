@@ -20,7 +20,6 @@ public class Storm {
     // Dependencies
     private final Random random = new Random();
     private stormutil stormUtilities; // for math
-    //private final PlayerService playerService // will be for handling user damage in storm
 
     @Getter
     @Setter

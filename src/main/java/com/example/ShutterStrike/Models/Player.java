@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Player{
-    
 
     //Player Data
     @Setter
@@ -18,7 +17,7 @@ public class Player{
     private String playerClass;
     @Setter
     @Getter
-    private int playerHealth;
+    private  int playerHealth;
     @Setter
     @Getter
     private boolean isHost;
@@ -27,7 +26,7 @@ public class Player{
     private User user;
 
     //Player Constructor
-    public Player(String playerName, String playerClass, String playerUUID, int playerHealth, boolean isHost, User user){
+    private Player(String playerName, String playerClass, String playerUUID, int playerHealth, boolean isHost, User user){
         this.playerName = playerName;
         this.playerClass = playerClass;
         this.playerUUID = playerUUID;
@@ -41,19 +40,18 @@ public class Player{
         this(null,null,null,0,false, null);
     }
 
-    public void takeDamage(int damage){
-        if(this.playerHealth > 0){
-            playerHealth = playerHealth - damage;
-        }
-
-        if(playerHealth < 0){
-            playerHealth = 0; // Just in case
-        }
-    }
-
     public boolean isDead(){
         return this.playerHealth == 0;
     }
+
+    public void heal(int amount) {
+        this.playerHealth += amount;
+    }
+
+    public void damage(int amount) {
+        this.playerHealth -= amount;
+    }
+
     
 }
 

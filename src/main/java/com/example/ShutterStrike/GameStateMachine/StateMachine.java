@@ -36,8 +36,6 @@ public class StateMachine {
                 for(int i = 0; i < newUsersBuffer.size() && i < Constants.MAX_PLAYERS; i++) {
                     log.info("User {}: {}", i, newUsersBuffer);
 
-
-
                 }
                 break;
 
@@ -46,7 +44,7 @@ public class StateMachine {
                 break;
 
             case GAME_ONGOING:
-
+                
                 break;
 
             case GAME_RESULTS:
