@@ -8,6 +8,8 @@ export default function RootLayout() {
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="lobby_host" options={{ headerShown: false }} />
         <Stack.Screen name="lobby_player" options={{ headerShown: false }} />
+        <Stack.Screen name="GameScreen_0" options={{ headerShown: false }} />
+
       </Stack>
     </SafeAreaProvider>
   );

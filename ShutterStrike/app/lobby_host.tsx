@@ -81,7 +81,7 @@ export default function LobbyScreen() {
       <View style={styles.buttonContainer}>
           <StyledButton 
             title="Class" 
-            onPress={() => router.push('/lobby_player')}  
+            onPress={() => router.push('/GameScreen_0')}  
             style={{ width: '47%' }}
           />
           <StyledButton 
