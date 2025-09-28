@@ -2,10 +2,9 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-
-import StyledButton from '../components/StyledButton';
 import ZonedMapComponent from '../components/ZonedMapComponent';
-import GameBanner from '../components/GameBanner'; // 👈 import new component
+import GameBanner from '../components/GameBanner';
+import GameInteractables from '../components/GameInteractables'; // 👈 import
 
 const GAME_ZONE = {
   center: {
@@ -26,17 +25,24 @@ export default function GameScreen_0() {
           zoneRadius={GAME_ZONE.radius}
         />
 
-      {/* HUD Overlay */}
-      <GameBanner 
-        lives={3} 
-        maxLives={5} 
-        gameTimer={60} 
-        active={true} 
-      />
+        {/* HUD Overlay - Top */}
+        <GameBanner 
+          lives={3} 
+          maxLives={5} 
+          gameTimer={60} 
+          active={true} 
+        />
 
+        {/* HUD Overlay - Bottom */}
+        <GameInteractables 
+          playerClass="cleric" 
+          cameraCooldown={false} 
+          classAbilityCooldown={true} 
+          onCameraPress={() => {console.log("Camera pressed"); router.push('/gameScreen_1')
+}}
+          onClassAbilityPress={() => console.log("Class ability pressed")}
+        />
       </View>
-
-
     </SafeAreaView>
   );
 }
