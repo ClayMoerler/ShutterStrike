@@ -28,8 +28,8 @@ export default function Index() {
           title="Start Lobby" 
           onPress={() => {
             initLobby();
-            router.push('/lobby_host')
             sendUserData();
+            router.push('/lobby_host')
           }}
         />
         
